@@ -72,10 +72,10 @@ const Layout = ({ children }) => {
               <AiOutlineLogout /> Sign Out
             </li>
             <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
-              <AiOutlineLogin /> Sign In
+              <AiOutlineLogin /> <Link href="/signin">Sign In</Link>
             </li>
             <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
-              <FiLogIn /> Sign Up
+              <FiLogIn /> <Link href="/signup">Sign Up</Link>
             </li>
           </ul>
         </div>
