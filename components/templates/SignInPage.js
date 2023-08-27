@@ -40,7 +40,7 @@ const SignInPage = () => {
           functionHandler={signInHandler}
           title="Sign In"
           path="/signup"
-          textLink="Not registered??"
+          textLink="Not registered?"
           error={error}
         />
       );
