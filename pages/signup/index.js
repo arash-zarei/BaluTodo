@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { getSession } from "next-auth/react";
+
 import Form from "@/templates/Form";
 import { useRouter } from "next/router";
 
@@ -8,9 +10,9 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
-  const router = useRouter()
+  const router = useRouter();
 
   const changeHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -24,8 +26,8 @@ const SignUp = () => {
     });
     const data = await res.json();
     console.log(data);
-    if (data.status === "failed") setError(data.message) 
-    if (data.status === "success") router.replace("/signin")
+    if (data.status === "failed") setError(data.message);
+    if (data.status === "success") router.replace("/signin");
   };
 
   return (
@@ -42,3 +44,17 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+
+  if (session) {
+    return {
+      redirect: { destination: "/", permanet: false },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
