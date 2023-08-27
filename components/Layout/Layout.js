@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 //  Icons
 import { CgProfile, CgMenuMotion } from "react-icons/cg";
@@ -14,6 +15,12 @@ import { FiLogIn } from "react-icons/fi";
 
 const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { status } = useSession();
+
+  const signOutHandler = () => {
+    signOut();
+  };
 
   return (
     <div
@@ -54,29 +61,50 @@ const Layout = ({ children }) => {
           <ul className="border-b border-gray-300 pb-7">
             <li className="mt-6 flex items-center gap-2">
               <FcTodoList />
-              <Link href="/">Todos</Link>
+              <Link onClick={() => setIsOpen(false)} href="/">
+                Todos
+              </Link>
             </li>
             <li className="mt-6 flex items-center gap-2">
               <MdOutlineAddCircle />
-              <Link href="/add-todo">Add ToDo</Link>
+              <Link onClick={() => setIsOpen(false)} href="/add-todo">
+                Add ToDo
+              </Link>
             </li>
             <li className="mt-6 flex items-center gap-2">
               <CgProfile />
-              <Link href="/profile">Profile</Link>
+              <Link onClick={() => setIsOpen(false)} href="/profile">
+                Profile
+              </Link>
             </li>
           </ul>
         </div>
         <div>
           <ul>
-            <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-red-600">
-              <AiOutlineLogout /> Sign Out
-            </li>
-            <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
-              <AiOutlineLogin /> <Link href="/signin">Sign In</Link>
-            </li>
-            <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
-              <FiLogIn /> <Link href="/signup">Sign Up</Link>
-            </li>
+            {status === "authenticated" ? (
+              <li
+                onClick={signOutHandler}
+                className="mt-6 flex items-center gap-2 cursor-pointer hover:text-red-600"
+              >
+                <AiOutlineLogout /> Sign Out
+              </li>
+            ) : null}
+            {status === "unauthenticated" ? (
+              <>
+                <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
+                  <AiOutlineLogin />{" "}
+                  <Link onClick={() => setIsOpen(false)} href="/signin">
+                    Sign In
+                  </Link>
+                </li>
+                <li className="mt-6 flex items-center gap-2 cursor-pointer hover:text-green-600">
+                  <FiLogIn />{" "}
+                  <Link onClick={() => setIsOpen(false)} href="/signup">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            ) : null}
           </ul>
         </div>
       </aside>
