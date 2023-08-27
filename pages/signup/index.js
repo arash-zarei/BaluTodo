@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import Link from "next/link";
+
+import Form from "@/templates/Form";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("")
+
+  const router = useRouter()
 
   const changeHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -13,39 +18,26 @@ const SignUp = () => {
 
   const signUpHandler = async () => {
     const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(user)
-    })
-    const data = await res.json()
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+    const data = await res.json();
     console.log(data);
-  }
+    if (data.status === "failed") setError(data.message) 
+    if (data.status === "success") router.replace("/signin")
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-[60%] rounded-2xl py-7 px-2 border border-gray-200 flex flex-col items-center gap-5">
-        <h1 className="text-2xl text-blue-700">Sign Up</h1>
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={user.email}
-          onChange={changeHandler}
-          className="py-1 px-2 rounded-md w-[90%] border border-gray-400 outline-none"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={changeHandler}
-          className="py-1 px-2 rounded-md w-[90%] border border-gray-400 outline-none"
-        />
-
-        <button onClick={signUpHandler} className="py-1 px-5 bg-yellow-400 rounded-md">Sign Up</button>
-        <Link href="/signin" className="text-blue-600 underline text-sm">Already registered?</Link>
-      </div>
-    </div>
+    <Form
+      changeHandler={changeHandler}
+      user={user}
+      functionHandler={signUpHandler}
+      path="/signin"
+      textLink="Already registered?"
+      title="Sign Up"
+      error={error}
+    />
   );
 };
 
