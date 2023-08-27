@@ -37,7 +37,7 @@ const Form = ({
           onClick={functionHandler}
           className="py-1 px-5 bg-yellow-400 rounded-md"
         >
-          Sign Up
+          {title}
         </button>
         <Link href={path} className="text-blue-600 underline text-sm">
           {textLink}
