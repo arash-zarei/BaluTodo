@@ -13,15 +13,15 @@ const handler = async (req, res) => {
   }
 
   const session = await getSession({ req });
+
   if (!session) {
     return res
       .status(401)
       .json({ status: "failed", message: "You are not logged in!" });
   }
 
-
   const user = await User.findOne({ email: session.user.email });
-  console.log(user);
+
   if (!user) {
     return res
       .status(404)

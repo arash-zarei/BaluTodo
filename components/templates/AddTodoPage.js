@@ -1,5 +1,10 @@
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 import RadioButton from "@/modules/RadioButton";
-import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Icons
 import { SiTodoist } from "react-icons/si";
@@ -13,10 +18,36 @@ const AddTodoPage = () => {
     status: "todo",
     descriptions: "",
   });
+  const [error, setError] = useState("");
+
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") router.replace("/signin");
+  }, [status]);
 
   const changeHandler = (e) => {
     setTodo({ ...todo, [e.target.name]: e.target.value });
-    console.log(todo);
+  };
+
+  const addHandler = async () => {
+    const res = await fetch("/api/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todo),
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.status === "failed") setError(data.message);
+    if (data.status === "success") {
+      setTodo({
+        title: "",
+        status: "todo",
+        descriptions: "",
+      });
+      toast.success("Todo added!");
+    }
   };
 
   return (
@@ -81,7 +112,17 @@ const AddTodoPage = () => {
             className="input"
           ></textarea>
         </div>
+
+        {error && <p className="text-red-600">{error}</p>}
+
+        <button
+          onClick={addHandler}
+          className="py-1 px-10 rounded-md text-white bg-green-600"
+        >
+          Add
+        </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };
