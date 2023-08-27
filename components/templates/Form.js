@@ -12,7 +12,7 @@ const Form = ({ changeHandler, user, path, textLink, functionHandler, title, err
           placeholder="Email"
           value={user.email}
           onChange={changeHandler}
-          className="py-1 px-2 rounded-md w-[90%] border border-gray-400 outline-none"
+          className="input"
         />
         <input
           type="password"
@@ -20,7 +20,7 @@ const Form = ({ changeHandler, user, path, textLink, functionHandler, title, err
           placeholder="Password"
           value={user.password}
           onChange={changeHandler}
-          className="py-1 px-2 rounded-md w-[90%] border border-gray-400 outline-none"
+          className="input"
         />
 
         {error && <p className="text-red-600 text-center">{error}</p>}
