@@ -1,10 +1,18 @@
 import React from "react";
 import Link from "next/link";
 
-const Form = ({ changeHandler, user, path, textLink, functionHandler, title, error }) => {
+const Form = ({
+  changeHandler,
+  user,
+  path,
+  textLink,
+  functionHandler,
+  title,
+  error,
+}) => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-[60%] rounded-2xl py-7 px-2 border border-gray-200 flex flex-col items-center gap-5">
+      <div className="w-[80%] sm:w-[60%] rounded-2xl py-7 px-2 border border-gray-200 flex flex-col items-center gap-5">
         <h1 className="text-2xl text-blue-700 font-extrabold">{title}</h1>
         <input
           type="text"
