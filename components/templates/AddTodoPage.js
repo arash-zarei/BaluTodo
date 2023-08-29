@@ -85,6 +85,7 @@ const AddTodoPage = ({ data }) => {
             value={todo.title}
             onChange={changeHandler}
             className="input"
+            maxLength="50"
           />
         </div>
         <div className="w-full flex flex-col items-start">
@@ -124,6 +125,7 @@ const AddTodoPage = ({ data }) => {
           <textarea
             name="descriptions"
             id="descriptions"
+            rows="7"
             value={todo.descriptions}
             onChange={changeHandler}
             className="input"

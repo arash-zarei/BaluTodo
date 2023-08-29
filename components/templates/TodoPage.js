@@ -15,9 +15,7 @@ const TodoPage = ({ todo }) => {
         >
           {status}
         </p>
-        <p className="border border-gray-400 rounded-lg p-3 mt-5">
-          {descriptions}
-        </p>
+        <textarea value={descriptions} className="w-full border border-gray-400 mt-5 px-2 py-4 rounded-xl leading-7 resize-none" rows="10"></textarea>
       </div>
     </div>
   );
