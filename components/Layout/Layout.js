@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
 
   return (
     <div
-      className={`max-w-6xl mx-auto flex justify-between relative ${
+      className={`max-w-7xl mx-auto flex justify-between relative ${
         isOpen ? "h-screen overflow-hidden" : ""
       }`}
     >
