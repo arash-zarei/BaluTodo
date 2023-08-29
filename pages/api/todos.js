@@ -1,5 +1,6 @@
 import User from "@/models/User";
 import connectDB from "@/utils/connectDB";
+import { sortTodos } from "@/utils/sortTodos";
 import { getSession } from "next-auth/react";
 
 const handler = async (req, res) => {
@@ -31,7 +32,7 @@ const handler = async (req, res) => {
   if (req.method === "POST") {
     const { title, status, descriptions } = req.body;
 
-    if (!title || !status || descriptions) {
+    if (!title || !status || !descriptions) {
       return res
         .status(422)
         .json({ status: "failed", message: "Invaild data!" });
@@ -41,6 +42,10 @@ const handler = async (req, res) => {
     user.save();
 
     res.status(201).json({ status: "success", message: "Todo created!" });
+  } else if (req.method === "GET") {
+    const sortedTodos = sortTodos(user.todos);
+
+    res.status(200).json({ status: "success", data: { todos: sortedTodos } });
   }
 };
 
