@@ -32,7 +32,7 @@ const Tasks = ({ data, color, next, back, fetchTodos }) => {
               <PiSubtitles />
               <p>{todo.title}</p>
               <Link
-                href=""
+                href={`todo/${todo._id}`}
                 className="text-center text-sm text-red-600 underline"
               >
                 Details
