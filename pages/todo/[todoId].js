@@ -14,7 +14,6 @@ const TodoDetails = ({ data }) => {
 export default TodoDetails;
 
 export async function getServerSideProps(context) {
-  const id = context.query;
   const req = context.req;
   const session = await getSession({ req });
 
