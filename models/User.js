@@ -11,7 +11,7 @@ const userSchema = new Schema({
   },
   name: String,
   lastName: String,
-  todos: [{ title: String, status: String, description: String }],
+  todos: [{ title: String, status: String, descriptions: String }],
   createdAt: {
     type: Date,
     default: () => Date.now(),
