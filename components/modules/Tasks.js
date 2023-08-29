@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import { ClipLoader } from "react-spinners";
 
 // Icons
 import { PiSubtitles } from "react-icons/pi";
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
-import { ClipLoader } from "react-spinners";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 const Tasks = ({ data, color, next, back, fetchTodos }) => {
   const statusHandler = (id, status) => {
@@ -25,9 +26,12 @@ const Tasks = ({ data, color, next, back, fetchTodos }) => {
       {data ? (
         data.map((todo) => (
           <div key={todo._id} className="w-full shadow-md p-2 mt-1">
+            <div className="w-full flex justify-between items-center">
             <span
-              className={`w-[80%] h-[2px] rounded-md block ${color}`}
+              className={`w-[85%] h-[2px] rounded-md block ${color}`}
             ></span>
+            <Link href=""><MdOutlineModeEditOutline /></Link>
+            </div>
             <div className="mt-3 flex flex-col gap-2">
               <PiSubtitles />
               <p>{todo.title}</p>
