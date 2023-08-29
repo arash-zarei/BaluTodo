@@ -12,12 +12,16 @@ import { CiSettings } from "react-icons/ci";
 import { MdPreview } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 
-const AddTodoPage = () => {
-  const [todo, setTodo] = useState({
-    title: "",
-    status: "todo",
-    descriptions: "",
-  });
+const AddTodoPage = ({ data }) => {
+  const [todo, setTodo] = useState(
+    data
+      ? data
+      : {
+          title: "",
+          status: "todo",
+          descriptions: "",
+        }
+  );
   const [error, setError] = useState("");
 
   const { status } = useSession();
@@ -50,11 +54,24 @@ const AddTodoPage = () => {
     }
   };
 
+  const editHandler = () => {
+    fetch("/api/edit-todo", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success(data.message);
+        router.replace("/");
+      });
+  };
+
   return (
     <div className="w-full flex justify-center pt-5">
       <div className="w-[80%] rounded-2xl py-5 px-2 border border-gray-200 flex flex-col items-center gap-5">
         <h1 className="text-2xl text-blue-600 font-bold text-center">
-          Add New Todo
+          {data ? "Edit Todo" : "Add New Todo"}
         </h1>
 
         <div className="w-full flex flex-col items-start gap-2">
@@ -116,10 +133,10 @@ const AddTodoPage = () => {
         {error && <p className="text-red-600">{error}</p>}
 
         <button
-          onClick={addHandler}
+          onClick={data ? editHandler : addHandler}
           className="py-1 px-10 rounded-md text-white bg-green-600"
         >
-          Add
+          {data ? "Edit" : "Add"}
         </button>
       </div>
       <ToastContainer />

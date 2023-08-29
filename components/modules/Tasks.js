@@ -30,7 +30,7 @@ const Tasks = ({ data, color, next, back, fetchTodos }) => {
             <span
               className={`w-[85%] h-[2px] rounded-md block ${color}`}
             ></span>
-            <Link href=""><MdOutlineModeEditOutline /></Link>
+            <Link href={`edit/${todo._id}`}><MdOutlineModeEditOutline /></Link>
             </div>
             <div className="mt-3 flex flex-col gap-2">
               <PiSubtitles />
