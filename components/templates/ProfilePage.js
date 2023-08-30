@@ -4,6 +4,7 @@ import ProfileForm from "@/modules/ProfileForm";
 
 // Icons
 import { CgProfile } from "react-icons/cg";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProfilePage = () => {
   const [user, setUser] = useState({
@@ -40,7 +41,10 @@ const ProfilePage = () => {
     });
     const data = await res.json();
     if (data.status === "failed") setError(data.message);
-    console.log(data);
+    if (data.status === "success") {
+      toast.success("Added Data")
+      fetchProfile()
+    }
   };
   return (
     <div className="w-full mt-4 p-4 flex justify-center items-center">
@@ -62,6 +66,7 @@ const ProfilePage = () => {
           />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
