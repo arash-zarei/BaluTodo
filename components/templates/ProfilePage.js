@@ -6,6 +6,7 @@ import ProfileForm from "@/modules/ProfileForm";
 import { CgProfile } from "react-icons/cg";
 import { toast, ToastContainer } from "react-toastify";
 import { MdOutlineModeEditOutline } from "react-icons/md";
+import EditProfile from "@/modules/EditProfile";
 
 const ProfilePage = ({ userData }) => {
   const [user, setUser] = useState({
@@ -16,7 +17,7 @@ const ProfilePage = ({ userData }) => {
 
   const [dataUser, setDataUser] = useState(null);
 
-  const [editUser, setEditUser] = useState(userData);
+  const [editUser, setEditUser] = useState({ ...userData, password: "" });
 
   const [error, setError] = useState("");
 
@@ -36,6 +37,10 @@ const ProfilePage = ({ userData }) => {
 
   const changeHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const changeHandlerEditUser = (e) => {
+    setEditUser({ ...editUser, [e.target.name]: e.target.value });
   };
 
   const postHandler = async () => {
@@ -63,11 +68,12 @@ const ProfilePage = ({ userData }) => {
     if (data.status === "success") {
       toast.success("Edited User");
       fetchProfile();
+      setIsOpen(false)
     }
   };
 
   return (
-    <div className="w-full mt-4 p-4 flex justify-center items-center">
+    <div className="w-full min-h-screen relative p-8 flex justify-center items-center">
       <div className="w-[80%] p-5 border border-gray-400 rounded-lg">
         {dataUser && (
           <button
@@ -94,6 +100,16 @@ const ProfilePage = ({ userData }) => {
           />
         )}
       </div>
+      {isOpen && (
+        <EditProfile
+          setIsOpen={setIsOpen}
+          name={editUser.name}
+          lastName={editUser.lastName}
+          password={editUser.password}
+          changeHandlerEditUser={changeHandlerEditUser}
+          editHandler={editHandler}
+        />
+      )}
       <ToastContainer />
     </div>
   );
