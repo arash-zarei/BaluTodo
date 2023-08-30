@@ -2,10 +2,13 @@ import Link from "next/link";
 import React from "react";
 import { ClipLoader } from "react-spinners";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Icons
 import { PiSubtitles } from "react-icons/pi";
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
-import { MdOutlineModeEditOutline } from "react-icons/md";
+import { MdOutlineModeEditOutline, MdDeleteOutline } from "react-icons/md";
 
 const Tasks = ({ data, color, next, back, fetchTodos }) => {
   const statusHandler = (id, status) => {
@@ -21,18 +24,34 @@ const Tasks = ({ data, color, next, back, fetchTodos }) => {
       });
   };
 
+  const deleteHandler = async (id) => {
+    const res = await fetch(`/api/delete-todo/${id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    if (data.status === "success") {
+      toast.error("Deleted Todo");
+      fetchTodos();
+    }
+  };
+
   return (
     <div className="w-full">
       {data ? (
         data.map((todo) => (
-          <div key={todo._id} className="w-full shadow-md p-2 mt-1">
-            <div className="w-full flex justify-between items-center">
-            <span
-              className={`w-[85%] h-[2px] rounded-md block ${color}`}
-            ></span>
-            <Link href={`edit/${todo._id}`}><MdOutlineModeEditOutline /></Link>
+          <div key={todo._id} className="w-full shadow-lg rounded-md p-2 mt-1">
+            <div className="w-full flex justify-between items-center mt-2">
+              <button onClick={() => deleteHandler(todo._id)}>
+                <MdDeleteOutline size={21} color="red" />
+              </button>
+              <span
+                className={`w-[75%] h-[2px] rounded-md block ${color}`}
+              ></span>
+              <Link href={`edit/${todo._id}`}>
+                <MdOutlineModeEditOutline size={21} />
+              </Link>
             </div>
-            <div className="mt-3 flex flex-col gap-2">
+            <div className="mt-5 flex flex-col gap-2">
               <PiSubtitles />
               <p>{todo.title}</p>
               <Link
@@ -62,11 +81,8 @@ const Tasks = ({ data, color, next, back, fetchTodos }) => {
             </div>
           </div>
         ))
-      ) : (
-        <div className="flex justify-center items-center mt-3">
-          <ClipLoader color="#7736d6" />
-        </div>
-      )}
+      ) : null}
+      <ToastContainer />
     </div>
   );
 };
