@@ -29,6 +29,7 @@ const AddTodoPage = ({ data }) => {
 
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/signin");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const changeHandler = (e) => {
