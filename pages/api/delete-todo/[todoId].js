@@ -19,20 +19,16 @@ const handler = async (req, res) => {
       .status(401)
       .json({ status: "failed", message: "You are not logged in!" });
   }
-  
+
   const user = await User.findOne({ email: session.user.email });
-  
-  if (req.method === "PATCH") {
-    const valueTodo = req.body;
-    const todo = user.todos.find(
-      (todo) => todo._id.toString() === valueTodo._id
-    );
-    todo.title = valueTodo.title;
-    todo.status = valueTodo.status;
-    todo.descriptions = valueTodo.descriptions;
+  const id = req.query.todoId;
+
+  if (req.method === "DELETE") {
+    const newTodos = user.todos.filter((todo) => todo._id.toString() !== id);
+    user.todos = newTodos;
     user.save();
 
-    res.status(200).json({ status: "success", message: "Upadated Todo" });
+    res.status(200).json({ status: "success", message: "Deleted Todo" });
   }
 };
 
