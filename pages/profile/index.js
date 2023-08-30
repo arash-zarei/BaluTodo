@@ -1,8 +1,9 @@
+import User from "@/models/User";
 import ProfilePage from "@/templates/ProfilePage";
 import { getSession } from "next-auth/react";
 
-const Profile = () => {
-  return <ProfilePage />;
+const Profile = ({ user }) => {
+  return <ProfilePage userData={user} />;
 };
 
 export default Profile;
@@ -16,7 +17,14 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+  const user = await User.findOne({email: session.user.email})
+  const limitData = {
+    name: user.name,
+    lastName: user.lastName,
+    id: user._id
+  }
+
   return {
-    props: { session },
+    props: { user: JSON.parse(JSON.stringify(limitData)) },
   };
 }
