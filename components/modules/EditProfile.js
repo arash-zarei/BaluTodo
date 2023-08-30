@@ -10,6 +10,7 @@ const EditProfile = ({
   lastName,
   password,
   changeHandlerEditUser,
+  error
 }) => {
   return (
     <div className="w-full h-screen absolute bg-gray-800/80 flex justify-center items-center">
@@ -52,6 +53,7 @@ const EditProfile = ({
             />
           </div>
         </div>
+        {error && <p className="text-red-600 my-2 text-center py-3">{error}</p>}
         <button
           className="py-1 px-5 rounded-md bg-green-400 mt-4"
           onClick={editHandler}

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import ProfileData from "@/modules/ProfileData";
 import ProfileForm from "@/modules/ProfileForm";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Icons
 import { CgProfile } from "react-icons/cg";
-import { toast, ToastContainer } from "react-toastify";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditProfile from "@/modules/EditProfile";
 
@@ -52,8 +54,8 @@ const ProfilePage = ({ userData }) => {
     const data = await res.json();
     if (data.status === "failed") setError(data.message);
     if (data.status === "success") {
-      toast.success("Added Data");
       fetchProfile();
+      toast.success("Added Data");
     }
   };
 
@@ -66,9 +68,10 @@ const ProfilePage = ({ userData }) => {
     const data = await res.json();
     if (data.status === "failed") setError(data.message);
     if (data.status === "success") {
-      toast.success("Edited User");
       fetchProfile();
-      setIsOpen(false)
+      toast.success("Edited User");
+      setIsOpen(false);
+      setEditUser({ ...userData, password: "" });
     }
   };
 
@@ -108,6 +111,7 @@ const ProfilePage = ({ userData }) => {
           password={editUser.password}
           changeHandlerEditUser={changeHandlerEditUser}
           editHandler={editHandler}
+          error={error}
         />
       )}
       <ToastContainer />
