@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { ClipLoader } from "react-spinners";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
