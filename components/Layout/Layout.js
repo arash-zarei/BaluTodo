@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
       )}
       {/* start aside */}
       <aside
-        className={`w-[70%] sm:w-[50%] absolute top-0 ${
+        className={`w-[70%] z-50 sm:w-[50%] absolute top-0 ${
           isOpen ? "left-[0%]" : "left-[-70%] sm:left-[-50%]"
         } lg:relative lg:w-[20%] lg:left-0 bg-slate-100 px-4 py-2 min-h-screen transition-all`}
       >
