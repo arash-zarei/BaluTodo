@@ -76,7 +76,7 @@ const ProfilePage = ({ userData }) => {
   };
 
   return (
-    <div className="w-full min-h-screen relative p-8 flex justify-center items-center">
+    <div className="w-full z-10 min-h-screen relative p-8 flex justify-center items-center">
       <div className="w-[80%] p-5 border border-gray-400 rounded-lg">
         {dataUser && (
           <button
